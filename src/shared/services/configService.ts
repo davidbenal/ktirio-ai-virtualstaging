@@ -100,6 +100,21 @@ export const configService = {
         return newAgency;
     },
 
+    // Include addAgency for compatibility with remote branch code using this name
+    addAgency(name: string, domain: string) {
+        const config = this.getConfig();
+        const newAgency: AgencyConfig = {
+            id: generateId(),
+            name,
+            domain,
+            selectors: { propertyImages: 'img' },
+        };
+        config.agencies.push(newAgency);
+        config.activeAgencyId = newAgency.id;
+        this.saveConfig(config);
+        return newAgency;
+    },
+
     updateAgency(agency: AgencyConfig) {
         const config = this.getConfig();
         const index = config.agencies.findIndex(a => a.id === agency.id);
